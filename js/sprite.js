@@ -7,8 +7,8 @@ function createSprite(selector){
 
 	return {
 		nextFrame: () => {
-			if (currentFrame > lastFrame) return; 
-			updateFrame(++currentFrame);
+			if (currentFrame < lastFrame)
+				updateFrame(++currentFrame);
 		},
 		reset: () => {
 			currentFrame = initialFrame;
