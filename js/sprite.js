@@ -1,10 +1,19 @@
 function createSprite(selector){
-	let currentFrame = 1;
+	const initialFrame = 1;
+	
+	let lastFrame = 9;
+	let currentFrame = initialFrame;
+	const updateFrame = (frame) => $(selector).attr("class", `sprite frame${frame}`);
+
 	return {
 		nextFrame: () => {
-			if (currentFrame > 9) return; 
-			$(selector).attr("class", `sprite frame${currentFrame}`);
-			currentFrame++;
-		}
+			if (currentFrame > lastFrame) return; 
+			updateFrame(++currentFrame);
+		},
+		reset: () => {
+			currentFrame = initialFrame;
+			updateFrame(currentFrame);
+		},
+		isFinished: () => currentFrame >= lastFrame
 	}
 }
