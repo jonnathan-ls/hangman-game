@@ -5,15 +5,18 @@ function createGame(sprite){
         currentStep = 1; secretWord = ""; attempts = []; sprite.reset(); 
     }
 
+    initialConfig();   
+
     const currentWord = () => 
         secretWord.split('').map(x => attempts.includes(x) ? x : '');
     
     return {
         getStep: () => currentStep,
-        setSecretWord: (word) => {     
-            initialConfig();   
-            secretWord = word;
-            currentStep++;
+        setSecretWord: (word) => {
+            if (word){
+                secretWord = word;
+                currentStep++;
+            }
         },
         getGaps: () => currentWord(),
         suesKick: (letter) => {

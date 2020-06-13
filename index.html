@@ -22,12 +22,20 @@
         <div class="text-center">
         <input id="entrada" 
             class="entrada"
-            placeholder="Palavra secreta" autofocus>
+            placeholder="Palavra Secreta" autofocus>
         </div>
     </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/controller.js"></script>
+    <script>
+        createController(
+            createGame(
+                createSprite('.sprite')
+            )
+        ).init();
+    </script>
 </body>
 </html>
