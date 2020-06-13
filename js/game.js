@@ -1,14 +1,17 @@
 function createGame(sprite){
-    const initialStep = 1;
-    let currentStep = initialStep;
-    let secretWord = "";
-    let attempts = [];
-    
-    const currentWord = () => secretWord.split('').map(x => attempts.includes(x) ? x : '');
+    let currentStep, secretWord, attempts;
 
+    const initialConfig = () => { 
+        currentStep = 1; secretWord = ""; attempts = []; sprite.reset(); 
+    }
+
+    const currentWord = () => 
+        secretWord.split('').map(x => attempts.includes(x) ? x : '');
+    
     return {
         getStep: () => currentStep,
-        setSecretWord: (word) => {
+        setSecretWord: (word) => {     
+            initialConfig();   
             secretWord = word;
             currentStep++;
         },
@@ -16,7 +19,10 @@ function createGame(sprite){
         suesKick: (letter) => {
             if (!attempts.includes(letter)) attempts.push(letter);
             if (!secretWord.includes(letter)) sprite.nextFrame();
-        }
-
+        },
+        won: () => secretWord === currentWord().join(''),
+        lost: () => sprite.isFinished(),
+        wonOrLost: () => secretWord === currentWord().join('') || sprite.isFinished(),
+        restart: () => initialConfig(),
     }
 }
