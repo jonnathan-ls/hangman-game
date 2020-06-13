@@ -12,27 +12,41 @@ function createController(game){
     const changePlaceHolder = (text) => $input.attr("placeholder", text);
 
     const storeSecretWord = () => {
-        const word = $input.val().toLowerCase();
-        if (word) {
-            changePlaceHolder("Chute");
-            game.setSecretWord(word);
-            displayGaps();
-            clearInput();
-            $input.attr("maxlength", "1");
+        try {
+            const word = $input.val().toLowerCase().trim();
+            if (word) {
+                changePlaceHolder("Chute");
+                game.setSecretWord(word);
+                displayGaps();
+                clearInput();
+                $input.attr("maxlength", "1");
+            }
+        } catch (error) {
+            alert(error.message)
         }
     }
 
-    const suesKick = () => {
-        game.suesKick($input.val().trim())
-        displayGaps();
-        clearInput();
+    const restartGame = () => {
+        $input.removeAttr("maxlength");
+        changePlaceHolder("Palavra Secreta");
+        game.restart();
+        $gaps.empty();
+    }
 
-        if (game.wonOrLost()) {
-            if (game.won()) alert("Parabéns! Você Acertou");
-            if (game.lost()) alert(":( Que Pena! Não foi dessa vez ... ");
-            $input.removeAttr("maxlength");
-            changePlaceHolder("Palavra Secreta");
-            game.restart();
+    const suesKick = () => {
+        try {
+            game.suesKick($input.val().trim())
+            displayGaps();
+            clearInput();
+            if (game.wonOrLost()) {
+                setTimeout(()=>{
+                    if (game.won()) alert("Parabéns! Você Acertou");
+                    if (game.lost()) alert(":( Que Pena! Não foi dessa vez ... ");
+                    restartGame();
+                }, 250)
+            }
+        } catch (error) {
+            alert(error.message)
         }
     }
 

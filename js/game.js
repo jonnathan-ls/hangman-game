@@ -13,7 +13,9 @@ function createGame(sprite){
     return {
         getStep: () => currentStep,
         setSecretWord: (word) => {
-            if (word){
+            if (word.trim().includes(" ")) 
+                throw new Error("Somente uma Palavra por Jogo!")
+            if (word.trim()){
                 secretWord = word;
                 currentStep++;
             }
